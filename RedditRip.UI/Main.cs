@@ -1,13 +1,9 @@
 ﻿using RedditRip.Core;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,10 +18,10 @@ namespace RedditRip.UI
         private CancellationTokenSource cts;
         private SearchRange SearchRange { get; set; }
         private Sorting SortOrder { get; set; }
-        private static readonly log4net.ILog log =
+        private static readonly log4net.ILog Log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private List<ImageLink> _links { get; set; }
+        private List<ImageLink> Links { get; set; }
 
         public Main()
         {
@@ -38,17 +34,18 @@ namespace RedditRip.UI
             cts = new CancellationTokenSource();
             SetDestination();
 
-            if (!string.IsNullOrWhiteSpace(txtDestination.Text))
-            {
-                EnableDestinationText(false);
-                EnableGetLinksButton(false);
-
-                OutputLine("Starting downloads....");
-                Downloads = new TaskFactory().StartNew(() => DownloadLinks(cts.Token), cts.Token);
-
-                EnableCancelButton(true);
-                EnableDownloadButton(true);
+            if ( string.IsNullOrWhiteSpace( txtDestination.Text ) ) {
+                return;
             }
+
+            this.EnableDestinationText(false);
+            this.EnableGetLinksButton(false);
+
+            this.OutputLine("Starting downloads....");
+            this.Downloads = new TaskFactory().StartNew(() => this.DownloadLinks(this.cts.Token), this.cts.Token);
+
+            this.EnableCancelButton(true);
+            this.EnableDownloadButton(true);
         }
 
         private void SetDestination()
@@ -74,7 +71,7 @@ namespace RedditRip.UI
             }
             catch (OperationCanceledException)
             {
-                _links = new List<ImageLink>();
+                this.Links = new List<ImageLink>();
                 ClearLinkNodes();
                 OutputLine("Action Canceled by user.");
             }
@@ -92,7 +89,7 @@ namespace RedditRip.UI
         {
             if (verboseMessage && !bVerbose.Checked) return;
             Debug.WriteLine($"{DateTime.Now.ToShortTimeString()}: {message}");
-            log.Info(message);
+            Log.Info(message);
         }
 
         private List<ImageLink> CombineLinkLists(IEnumerable<ImageLink> results, List<ImageLink> links)
@@ -137,7 +134,7 @@ namespace RedditRip.UI
             try
             {
                 var nodes = new List<TreeNode>();
-                var subs = _links.Select(x => x.Post.SubredditName).Distinct().ToList();
+                var subs = this.Links.Select(x => x.Post.SubredditName).Distinct().ToList();
                 OutputLine("Building nodes for Link Tree");
                 Parallel.ForEach(subs, sub => nodes.Add(PopulateTreeWithLinks(sub, token)));
                 foreach (var node in nodes.OrderBy(x => x.Text))
@@ -147,7 +144,7 @@ namespace RedditRip.UI
             }
             catch (OperationCanceledException)
             {
-                _links = new List<ImageLink>();
+                this.Links = new List<ImageLink>();
                 ClearLinkNodes();
                 OutputLine("Action Canceled by user.");
             }
@@ -164,7 +161,7 @@ namespace RedditRip.UI
 
         private TreeNode PopulateTreeWithLinks(string subName, CancellationToken token)
         {
-            var subLinks = _links.Where(x => x.Post.SubredditName == subName);
+            var subLinks = this.Links.Where(x => x.Post.SubredditName == subName);
             if (subLinks.Any())
             {
                 var subUsers = subLinks.Where(x => x.Post.SubredditName == subName).Select(y => y.Post.AuthorName).Distinct();
@@ -209,7 +206,7 @@ namespace RedditRip.UI
         {
             try
             {
-                var posts = _links.GroupBy(x => x.Post.Id).ToDictionary(x => x.Key, x => x.ToList());
+                var posts = this.Links.GroupBy(x => x.Post.Id).ToDictionary(x => x.Key, x => x.ToList());
                 var ripper = new Core.RedditRip(txtFilter.Text, false, bAllowNsfw.Checked, bOnlyNsfw.Checked,
                     bVerbose.Checked);
                 var tasks = new List<Task>();
@@ -418,21 +415,21 @@ namespace RedditRip.UI
                 {
                     string line;
                     OutputLine($"Reading file: {dialog.FileName}");
-                    _links = new List<ImageLink>();
+                    this.Links = new List<ImageLink>();
                     while ((line = file.ReadLine()) != null)
                     {
                         var link = line.Split('|');
-                        _links.Add(new ImageLink(
+                        this.Links.Add(new ImageLink(
                             new Post() { Id = link[0], SubredditName = link[1], AuthorName = link[2] }, link[4].Trim('.', ',', ':', ':', '|', ' '), link[3]));
 
                         if (file.EndOfStream) break;
                     }
                 }
                 OutputLine($"Finished reading file: {dialog.FileName}");
-                OutputLine($"{_links.Count} links found.");
-                var path = Path.GetDirectoryName(_links.FirstOrDefault()?.Filename);
-                path = path?.Replace(_links.FirstOrDefault()?.Post.SubredditName + Path.DirectorySeparatorChar +
-                                    _links.FirstOrDefault()?.Post.AuthorName, string.Empty).TrimEnd(Path.DirectorySeparatorChar);
+                OutputLine($"{this.Links.Count} links found.");
+                var path = Path.GetDirectoryName(this.Links.FirstOrDefault()?.Filename);
+                path = path?.Replace(this.Links.FirstOrDefault()?.Post.SubredditName + Path.DirectorySeparatorChar +
+                                    this.Links.FirstOrDefault()?.Post.AuthorName, string.Empty).TrimEnd(Path.DirectorySeparatorChar);
 
                 if (string.IsNullOrWhiteSpace(txtDestination.Text))
                     txtDestination.Text = path ?? string.Empty;
@@ -455,7 +452,7 @@ namespace RedditRip.UI
                 Directory.CreateDirectory(new FileInfo(dialog.FileName).Directory.FullName);
                 using (var file = new StreamWriter(dialog.FileName))
                 {
-                    var posts = _links.GroupBy(x => x.Post.Id).ToDictionary(x => x.Key, x => x.ToList());
+                    var posts = this.Links.GroupBy(x => x.Post.Id).ToDictionary(x => x.Key, x => x.ToList());
                     foreach (var post in posts)
                     {
                         var count = 1;
@@ -602,7 +599,7 @@ namespace RedditRip.UI
                     return;
                 }
 
-                _links = value;
+                this.Links = value;
             }
             catch
             {
