@@ -4,9 +4,12 @@ using System.Text;
 
 namespace RedditRip.Core
 {
+
+    using System;
+
     public class ImageLink
     {
-        public ImageLink(Post post, string url, string filename)
+        public ImageLink(Post post, String url, String filename)
         {
             Post = post;
             Url = url;
@@ -15,23 +18,23 @@ namespace RedditRip.Core
 
         public Post Post { get; set; }
 
-        public string Url { get; set; }
+        public String Url { get; set; }
 
-        public string Filename { get; set; }
+        public String Filename { get; set; }
 
-        public string GetPostDetails(KeyValuePair<string, List<ImageLink>> post)
+        public String GetPostDetails(KeyValuePair<String, List<ImageLink>> post)
         {
             return GetPostDetails(this, post);
         }
 
-        public static string GetPostDetails(ImageLink imageLink, KeyValuePair<string, List<ImageLink>> post)
+        public static String GetPostDetails(ImageLink imageLink, KeyValuePair<String, List<ImageLink>> post)
         {
             var sb = new StringBuilder();
             sb.AppendLine($"Subreddit:\t{imageLink?.Post.SubredditName}");
 
             sb.Append($"User:\t\t{imageLink?.Post.AuthorName}");
-            sb.Append(string.IsNullOrWhiteSpace(imageLink?.Post.AuthorFlairText)
-                ? string.Empty
+            sb.Append(String.IsNullOrWhiteSpace(imageLink?.Post.AuthorFlairText)
+                ? String.Empty
                 : imageLink?.Post.AuthorFlairText);
             sb.AppendLine();
 
@@ -44,7 +47,7 @@ namespace RedditRip.Core
 
                 sb.AppendLine();
 
-                if (!string.IsNullOrWhiteSpace(imageLink?.Post.SelfText))
+                if (!String.IsNullOrWhiteSpace(imageLink?.Post.SelfText))
                 {
                     sb.AppendLine();
                     sb.AppendLine($"Message:\t\t{imageLink?.Post.SelfText}");

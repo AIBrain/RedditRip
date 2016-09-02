@@ -20,8 +20,6 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -41,9 +39,15 @@
             this.btnGetLinks = new System.Windows.Forms.Button();
             this.btnDownload = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.bVerbose = new System.Windows.Forms.CheckBox();
             this.bOnlyNsfw = new System.Windows.Forms.CheckBox();
             this.bAllowNsfw = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.bNew = new System.Windows.Forms.RadioButton();
+            this.label4 = new System.Windows.Forms.Label();
+            this.bTop = new System.Windows.Forms.RadioButton();
             this.lbRange = new System.Windows.Forms.Label();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -56,12 +60,6 @@
             this.txtLog = new System.Windows.Forms.TextBox();
             this.linkTree = new System.Windows.Forms.TreeView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.label4 = new System.Windows.Forms.Label();
-            this.bVerbose = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtFilter = new System.Windows.Forms.TextBox();
-            this.bTop = new System.Windows.Forms.RadioButton();
-            this.bNew = new System.Windows.Forms.RadioButton();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -190,6 +188,32 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 58);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(69, 13);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Search Filter:";
+            // 
+            // txtFilter
+            // 
+            this.txtFilter.Location = new System.Drawing.Point(84, 55);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(199, 20);
+            this.txtFilter.TabIndex = 16;
+            // 
+            // bVerbose
+            // 
+            this.bVerbose.AutoSize = true;
+            this.bVerbose.Location = new System.Drawing.Point(192, 19);
+            this.bVerbose.Name = "bVerbose";
+            this.bVerbose.Size = new System.Drawing.Size(91, 17);
+            this.bVerbose.TabIndex = 15;
+            this.bVerbose.Text = "Verbose Logs";
+            this.bVerbose.UseVisualStyleBackColor = true;
+            // 
             // bOnlyNsfw
             // 
             this.bOnlyNsfw.AutoSize = true;
@@ -240,6 +264,39 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search";
             // 
+            // bNew
+            // 
+            this.bNew.AutoSize = true;
+            this.bNew.Location = new System.Drawing.Point(327, 160);
+            this.bNew.Name = "bNew";
+            this.bNew.Size = new System.Drawing.Size(47, 17);
+            this.bNew.TabIndex = 20;
+            this.bNew.Text = "New";
+            this.bNew.UseVisualStyleBackColor = true;
+            this.bNew.CheckedChanged += new System.EventHandler(this.bNew_CheckedChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(8, 141);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(79, 13);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Search Range:";
+            // 
+            // bTop
+            // 
+            this.bTop.AutoSize = true;
+            this.bTop.Checked = true;
+            this.bTop.Location = new System.Drawing.Point(277, 160);
+            this.bTop.Name = "bTop";
+            this.bTop.Size = new System.Drawing.Size(44, 17);
+            this.bTop.TabIndex = 18;
+            this.bTop.TabStop = true;
+            this.bTop.Text = "Top";
+            this.bTop.UseVisualStyleBackColor = true;
+            this.bTop.CheckedChanged += new System.EventHandler(this.bTop_CheckedChanged);
+            // 
             // lbRange
             // 
             this.lbRange.AutoSize = true;
@@ -255,7 +312,7 @@
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(259, 45);
             this.trackBar1.TabIndex = 16;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBar1.Value = 1;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
@@ -353,65 +410,6 @@
             this.imageList.ImageSize = new System.Drawing.Size(32, 32);
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 141);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(79, 13);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "Search Range:";
-            // 
-            // bVerbose
-            // 
-            this.bVerbose.AutoSize = true;
-            this.bVerbose.Location = new System.Drawing.Point(192, 19);
-            this.bVerbose.Name = "bVerbose";
-            this.bVerbose.Size = new System.Drawing.Size(91, 17);
-            this.bVerbose.TabIndex = 15;
-            this.bVerbose.Text = "Verbose Logs";
-            this.bVerbose.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 58);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 13);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Search Filter:";
-            // 
-            // txtFilter
-            // 
-            this.txtFilter.Location = new System.Drawing.Point(84, 55);
-            this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(199, 20);
-            this.txtFilter.TabIndex = 16;
-            // 
-            // bTop
-            // 
-            this.bTop.AutoSize = true;
-            this.bTop.Checked = true;
-            this.bTop.Location = new System.Drawing.Point(277, 160);
-            this.bTop.Name = "bTop";
-            this.bTop.Size = new System.Drawing.Size(44, 17);
-            this.bTop.TabIndex = 18;
-            this.bTop.TabStop = true;
-            this.bTop.Text = "Top";
-            this.bTop.UseVisualStyleBackColor = true;
-            this.bTop.CheckedChanged += new System.EventHandler(this.bTop_CheckedChanged);
-            // 
-            // bNew
-            // 
-            this.bNew.AutoSize = true;
-            this.bNew.Location = new System.Drawing.Point(327, 160);
-            this.bNew.Name = "bNew";
-            this.bNew.Size = new System.Drawing.Size(47, 17);
-            this.bNew.TabIndex = 20;
-            this.bNew.Text = "New";
-            this.bNew.UseVisualStyleBackColor = true;
-            this.bNew.CheckedChanged += new System.EventHandler(this.bNew_CheckedChanged);
-            // 
             // Main
             // 
             this.AcceptButton = this.btnAddSub;
@@ -440,7 +438,6 @@
 
         }
 
-        #endregion
         private System.Windows.Forms.TextBox txtSubReddit;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnAddSub;
